@@ -1,18 +1,23 @@
-#ifndef DYN_ARRAY_H
-#define DYN_ARRAY_H
+#ifndef ARRAY_H
+#define ARRAY_H
 
 #include <stddef.h>
 
 
-typedef struct Array Array;
+typedef struct {
+	void* data;
+	size_t size;
+	size_t capacity;
+	size_t element_size;
+} Array;
 
 //Constructor, Destructor
-Array array_init(size_t element_size);
+void array_init(Array* arr, size_t element_size);
 void array_destroy(Array* ptr);
 
 //Accessors, Mutators
-void* array_at(Array* arr, int idx);
-void array_push(Array* arr, void* element);
+void* array_at(Array* arr, size_t idx);
+void array_push(Array* arr, const void* element);
 void array_pop(Array* arr);
 
-#endif // DYN_ARRAY_H
+#endif // ARRAY_H

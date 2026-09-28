@@ -1,19 +1,13 @@
 #include <assert.h>
-#include <cstddef>
+#include <stddef.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "../include/array.h"
 
 
-struct Array {
-	void* data;
-	size_t size;
-	size_t capacity;
-	size_t element_size;
-};
-
-Array array_init(size_t el_size) {
-	return (Array) {
+void array_init(Array* arr, size_t el_size) {
+	*arr = (Array){
 		.data = malloc(el_size * 2),
 		.size = 0,
 		.capacity = 2,
@@ -32,10 +26,12 @@ void array_free(Array* arr) {
 void* array_at(Array* arr, size_t idx) {
 	assert(idx >= 0 || idx <= arr->size);
 
-	return &arr->data[idx];
+	// void* arithmetic
+	// typecast to char(1 byte) + idx * size of 1 element
+	return (char*)arr->data + idx * sizeof(arr->element_size);
 }
 
-void array_push(Array* arr, void* element) {	
+void array_push(Array* arr, const void* element) {	
 	if (arr->size >= arr->capacity) {
 		size_t new_cap = arr->capacity * 2;
 		void* tmp = realloc(arr->data, new_cap);
@@ -46,8 +42,11 @@ void array_push(Array* arr, void* element) {
 		}
 	}
 
-	arr->data[arr->size] = element;
-	arr->size += 1;
+	//void* arithmetic
+	//same as the function array_at(...) for copying the right amount of bytes into arr->data
+	void* dest = (char*)arr->data + arr->size * sizeof(arr->element_size);
+	memcpy(dest, element, arr->element_size);
+	arr->size++;
 }
 
 void array_pop(Array* arr) {
