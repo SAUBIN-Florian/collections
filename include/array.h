@@ -18,6 +18,7 @@ void array_destroy(Array* ptr);
 //Accessors, Mutators
 void* array_at(Array* arr, size_t idx);
 void array_push(Array* arr, const void* element);
+void array_push_list(Array* arr, void* list, size_t list_size);
 void array_pop(Array* arr);
 
 #endif // ARRAY_H

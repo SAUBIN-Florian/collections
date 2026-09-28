@@ -7,11 +7,17 @@
 int main() {
 	Array arr;
 	array_init(&arr, sizeof(int));
-	array_push(&arr, (int*)42);
-	array_push(&arr, (int*)69);
+
+	int n1 = 42;
+	int n2 = 69;
+	int n3 = 102;
+	array_push(&arr, &n1);
+	array_push(&arr, &n2);
+	array_push(&arr, &n3);
 
 	for (size_t i = 0; i < arr.size; i++) {
-		printf("Element: %zu\n", array_at(&arr, i));
+		int* n = array_at(&arr, i);
+		printf("Element: %d\n", *n);
 	}
 
 	array_destroy(&arr);

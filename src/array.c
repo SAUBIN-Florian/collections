@@ -15,7 +15,7 @@ void array_init(Array* arr, size_t el_size) {
 	};
 }
 
-void array_free(Array* arr) {
+void array_destroy(Array* arr) {
 	free(arr->data);
 	arr->data = NULL;
 	arr->size = 0;
@@ -24,17 +24,17 @@ void array_free(Array* arr) {
 }
 
 void* array_at(Array* arr, size_t idx) {
-	assert(idx >= 0 || idx <= arr->size);
+	assert(idx < arr->size);
 
 	// void* arithmetic
 	// typecast to char(1 byte) + idx * size of 1 element
-	return (char*)arr->data + idx * sizeof(arr->element_size);
+	return (char*)arr->data + idx * arr->element_size;
 }
 
 void array_push(Array* arr, const void* element) {	
 	if (arr->size >= arr->capacity) {
 		size_t new_cap = arr->capacity * 2;
-		void* tmp = realloc(arr->data, new_cap);
+		void* tmp = realloc(arr->data, new_cap * arr->element_size);
 
 		if (tmp != NULL) {
 			arr->data = tmp;
@@ -44,9 +44,15 @@ void array_push(Array* arr, const void* element) {
 
 	//void* arithmetic
 	//same as the function array_at(...) for copying the right amount of bytes into arr->data
-	void* dest = (char*)arr->data + arr->size * sizeof(arr->element_size);
+	void* dest = (char*)arr->data + arr->size * arr->element_size;
 	memcpy(dest, element, arr->element_size);
 	arr->size++;
+}
+
+void array_push_list(Array *arr, void *list, size_t list_size) {
+	for (size_t i = 0; i < list_size; i++) {
+		//TODO: finish this implementation
+	}
 }
 
 void array_pop(Array* arr) {
