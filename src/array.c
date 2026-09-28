@@ -49,7 +49,7 @@ void array_push(Array* arr, const void* element) {
 	arr->size++;
 }
 
-void array_push_list(Array *arr, void *list, size_t list_size) {
+void array_push_list(Array* arr, void* list, size_t list_size) {
 	for (size_t i = 0; i < list_size; i++) {
 		//TODO: finish this implementation
 	}
