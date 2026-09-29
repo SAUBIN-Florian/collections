@@ -6,3 +6,9 @@ add_executable(Array_example
 	examples/array_ex.c
 	include/array.h src/array.c
 )
+
+project(HashMap_example)
+add_executable(HashMap 
+	examples/hashmap_ex.c
+	include/hashmap.h src/hashmap.c
+)
