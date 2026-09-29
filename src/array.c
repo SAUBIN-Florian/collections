@@ -49,25 +49,6 @@ void array_push(Array* arr, const void* element) {
 	arr->size++;
 }
 
-void array_push_list(Array* arr, void* list, size_t list_size) {
-	if (arr->capacity <= list_size) {
-		size_t new_cap = list_size + 2;
-		void* tmp = realloc(arr->data, new_cap * arr->element_size);
-
-		if (tmp != NULL) {
-			arr->data = tmp;
-			arr->capacity = new_cap;
-		}
-	}
-
-	for (size_t i = 0; i < list_size; i++) {
-		void* dest = (char*)arr->data + i * arr->element_size;
-		void* el = (char*)list + i * arr->element_size;
-		memcpy(dest, el, arr->element_size);
-		arr->size++;
-	}
-}
-
 void array_pop(Array* arr) {
 	
 }
