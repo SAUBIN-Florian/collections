@@ -3,13 +3,20 @@
 
 #include <stddef.h>
 
+typedef struct {
+	char* key;
+	void* value;
+	size_t value_size;
+} Pair;
 
 typedef struct {
-	
+	Pair** data;
+	size_t size;
+	size_t capacity;
 } HashMap;
 
 //Constructor, Destructor
-void  hashmap_init(HashMap* map);
+void  hashmap_init(HashMap* map, size_t value_size);
 void  hashmap_destroy(HashMap* map);
 
 //Accessors, Mutators
