@@ -1,7 +1,11 @@
 #include <stdlib.h>
+#include <stdint.h>
 #include <string.h>
 
 #include "../include/hashmap.h"
+
+#define HASH_SEED_1 1
+#define HASH_SEED_2 2
 
 static Pair* pair_init(const char* k, void* v, size_t v_size) {
 	Pair* pair = (Pair*)malloc(sizeof(Pair) + v_size);
@@ -23,14 +27,29 @@ static void pair_destroy(Pair* pair) {
 	free(pair);
 }
 
-static void hash() {
-	//TODO: Hashing buckets will go here
+static uint64_t hash(const char* s, uint64_t seed) {
+	// SRC: https://en.wikipedia.org/wiki/Horner%27s_method
+	int horner_form = 31;
+	uint64_t hash = seed;
+
+	for (; *s; ++s) {
+		hash = hash * horner_form + (unsigned char)*s;
+	}
+
+	// NOTE: Don't forget to modulo this output with the capacity of the map...
+	return hash;
+}
+
+static int get_hash() {
+	// SRC: https://en.wikipedia.org/wiki/Double_hashing
+	//TODO: implement this mathematical mess...
+	
 }
 
 // ---------- PUBLIC API ----------
 
 void hashmap_init(HashMap* map, size_t value_size) {
-	map->capacity = 4;
+	map->capacity = 8;
 	map->size = 0;
 	map->data = calloc(map->capacity, sizeof(Pair*));
 }
